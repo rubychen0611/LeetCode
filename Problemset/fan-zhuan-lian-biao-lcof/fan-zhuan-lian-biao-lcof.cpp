@@ -1,9 +1,9 @@
 
-// @Title: 反转链表 (Reverse Linked List)
+// @Title: 反转链表 (反转链表 LCOF)
 // @Author: rubychen0611
-// @Date: 2020-12-24 21:06:36
-// @Runtime: 8 ms
-// @Memory: 8.5 MB
+// @Date: 2020-12-25 16:46:23
+// @Runtime: 16 ms
+// @Memory: 8.6 MB
 
 /**
  * Definition for singly-linked list.

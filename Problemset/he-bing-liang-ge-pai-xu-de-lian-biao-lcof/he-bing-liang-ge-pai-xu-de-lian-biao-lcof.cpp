@@ -1,18 +1,16 @@
 
-// @Title: 合并两个有序链表 (Merge Two Sorted Lists)
+// @Title: 合并两个排序的链表 (合并两个排序的链表  LCOF)
 // @Author: rubychen0611
-// @Date: 2020-12-25 11:43:35
-// @Runtime: 16 ms
-// @Memory: 14.9 MB
+// @Date: 2020-12-25 16:53:03
+// @Runtime: 52 ms
+// @Memory: 19.1 MB
 
 /**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
  *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
 class Solution {
@@ -64,7 +62,6 @@ public:
         if(q != nullptr)
             addList(q);
         return head;
-
     }
 };
 
