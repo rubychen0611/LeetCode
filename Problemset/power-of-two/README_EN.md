@@ -5,7 +5,9 @@
 
 ## Description
 
-<p>Given an integer <code>n</code>, write a function to determine if it is a power of two.</p>
+<p>Given an integer <code>n</code>, return <em><code>true</code> if it is a power of two. Otherwise, return <code>false</code></em>.</p>
+
+<p>An integer <code>n</code> is a power of two, if there exists an integer <code>x</code> such that <code>n == 2<sup>x</sup></code>.</p>
 
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>

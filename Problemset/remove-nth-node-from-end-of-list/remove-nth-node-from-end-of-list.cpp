@@ -1,5 +1,5 @@
 
-// @Title: 删除链表的倒数第N个节点 (Remove Nth Node From End of List)
+// @Title: 删除链表的倒数第 N 个结点 (Remove Nth Node From End of List)
 // @Author: rubychen0611
 // @Date: 2020-12-25 16:25:02
 // @Runtime: 0 ms
