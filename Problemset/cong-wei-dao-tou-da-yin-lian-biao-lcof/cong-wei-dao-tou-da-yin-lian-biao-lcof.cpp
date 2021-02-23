@@ -1,9 +1,9 @@
 
 // @Title: 从尾到头打印链表 (从尾到头打印链表 LCOF)
 // @Author: rubychen0611
-// @Date: 2020-12-25 16:51:12
+// @Date: 2021-02-13 01:25:39
 // @Runtime: 8 ms
-// @Memory: 11.3 MB
+// @Memory: 8.7 MB
 
 /**
  * Definition for singly-linked list.
@@ -13,17 +13,23 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-
 class Solution {
-
 public:
     vector<int> reversePrint(ListNode* head) {
-
-        if(head == NULL)
-            return vector<int>();
-        vector<int> ans = reversePrint(head -> next);
-        ans.push_back(head -> val);
+        stack<ListNode*> st;
+        ListNode* p = head;
+        while(p)
+        {
+            st.push(p);
+            p = p -> next;
+        }
+        vector<int> ans;
+        while(!st.empty())
+        {
+            p = st.top();
+            st.pop();
+            ans.push_back(p -> val);
+        }
         return ans;
     }
 };
-

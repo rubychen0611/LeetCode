@@ -1,9 +1,9 @@
 
 // @Title: 删除链表的节点 (删除链表的节点 LCOF)
 // @Author: rubychen0611
-// @Date: 2020-12-27 17:30:20
+// @Date: 2021-02-16 20:36:17
 // @Runtime: 16 ms
-// @Memory: 9.5 MB
+// @Memory: 9.1 MB
 
 /**
  * Definition for singly-linked list.
@@ -16,32 +16,25 @@
 class Solution {
 public:
     ListNode* deleteNode(ListNode* head, int val) {
-        if (head == NULL)
-            return head;
-        ListNode* prev = head, *p = head;
-        while(p != NULL)
+        ListNode* p = head, *prev = nullptr;
+        while(p != nullptr)
         {
-            if (p -> val == val)
+            if(p -> val == val)
             {
-                ListNode* tmp = p;
-                p = p -> next;
-                if(tmp == head)
+                if(prev == nullptr)
                 {
-                    head = tmp -> next;
+                    head = head -> next;
+                    return head;
                 }
                 else
                 {
-                    prev -> next = tmp -> next;
+                    prev -> next = p -> next;
+                    return head;
                 }
-                break;
             }
-            else
-            {
-                prev = p;
-                p = p -> next;
-            }
+            prev = p;
+            p = p -> next;
         }
         return head;
     }
 };
-

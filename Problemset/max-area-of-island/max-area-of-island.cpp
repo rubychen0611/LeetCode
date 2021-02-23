@@ -1,45 +1,39 @@
 
 // @Title: 岛屿的最大面积 (Max Area of Island)
 // @Author: rubychen0611
-// @Date: 2021-02-06 13:26:17
-// @Runtime: 20 ms
-// @Memory: 21.9 MB
+// @Date: 2021-02-18 12:00:28
+// @Runtime: 16 ms
+// @Memory: 21.7 MB
 
-//enum State{UNEXPLORED, EXPLORING, EXPLORED};
+int dir[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; 
 class Solution {
 private:
-    int calculateArea(vector<vector<int>>& grid, int i, int j)
+    int dfs(vector<vector<int>>& grid, int i, int j)
     {
-        //state[i][j] = EXPLORING;
-        grid[i][j] = 0;
-        int left = 0, right = 0, up = 0, down = 0;
-        if (i - 1 >= 0 && grid[i-1][j] == 1)
-            left = calculateArea(grid, i - 1, j);
-        if (i + 1 < grid.size() && grid[i+1][j] == 1)
-            right = calculateArea(grid,i + 1, j);
-        if (j - 1 >= 0 && grid[i][j-1] == 1)
-            up = calculateArea(grid, i, j - 1);
-        if (j + 1 < grid[0].size() && grid[i][j+1] == 1 )
-            down = calculateArea(grid, i, j + 1);
-        //state[i][j] = EXPLORED;
-
-        return 1 + left + right + up + down;
+        int area = 1;
+        grid[i][j] = 2;
+        for(int k = 0; k < 4; k++)
+        {
+            int x = i + dir[k][0];
+            int y = j + dir[k][1];
+            if(x >= 0 && y >= 0 && x < grid.size() && y < grid[0].size() && grid[x][y]== 1)
+                area += dfs(grid, x, y);
+        }
+        return area;
     }
 public:
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        if(grid.empty())
+        if(grid.empty() || grid[0].empty())
             return 0;
         int max = 0;
-        int m = grid.size(), n = grid[0].size(), area;
-        //vector<vector<State>> state(m, vector<State>(n, UNEXPLORED));
-        for(int i = 0; i < m; i++)
+        for(int i = 0; i < grid.size(); i++)
         {
-            for(int j = 0; j < n; j++)
+            for(int j = 0; j < grid[0].size(); j++)
             {
                 if(grid[i][j] == 1)
                 {
-                    area = calculateArea(grid, i, j);
-                    if(area > max)
+                    int area = dfs(grid, i, j);
+                    if(max < area)
                         max = area;
                 }
             }
@@ -47,4 +41,3 @@ public:
         return max;
     }
 };
-

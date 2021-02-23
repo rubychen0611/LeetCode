@@ -1,42 +1,75 @@
 
 // @Title: 排序数组 (Sort an Array)
 // @Author: rubychen0611
-// @Date: 2020-12-20 13:21:29
-// @Runtime: 72 ms
-// @Memory: 15.6 MB
+// @Date: 2021-02-15 17:28:24
+// @Runtime: 40 ms
+// @Memory: 15.5 MB
 
-class Solution {
+class MaxHeap
+{
 private:
-    /***************快速排序***************/
-    int Partition(vector<int> &a, int left, int right)
+    vector<int> heap;
+    int n;
+    int getParent(int i)
     {
-        int x = a[right];   // 主元
-        int i = left - 1;       // i标记小于x、大于x的分界点
-        for (int j = left; j <= right - 1; j++)     // j遍历每个除主元外的元素
-        {
-            if(a[j] <= x)
-            {
-                i ++;
-                swap(a[i], a[j]);
-            }
-        }
-        swap(a[i + 1], a[right]);
-        return i + 1;
+        return (i - 1) / 2;
+    }
+    int getLeftChild(int i)
+    {
+        return 2 * i + 1;
+    }
+    int getRightChild(int i)
+    {
+        return 2 * i + 2;
     }
 
-    void QuickSort(vector<int> &a, int left, int right)
+public:
+    MaxHeap(vector<int>& nums)
     {
-        if (left < right)
+        heap = vector<int>(nums);
+        n = nums.size();
+        BuildHeap();
+    }
+    void BuildHeap()
+    {
+        for(int i = getParent(n - 1); i >= 0; i--)
+            Heapify(i);
+    }
+    void Heapify(int i)
+    {
+        int left = getLeftChild(i), right = getRightChild(i);
+        int max = i;
+        if(left < n && heap[max] < heap[left])
         {
-            int pivot = Partition(a, left, right);
-            QuickSort(a, left, pivot - 1);
-            QuickSort(a, pivot + 1, right);
+            max = left;
+        }
+        if (right < n && heap[max] < heap[right])
+        {
+            max = right;
+        }
+        if(max != i)
+        {
+            swap(heap[max], heap[i]);
+            Heapify(max);
         }
     }
+    vector<int> HeapSort()
+    {
+        int i = n - 1;
+        for(; i >= 1; i--)
+        {
+            swap(heap[0], heap[i]);
+            n--;
+            Heapify(0);
+        }
+        return heap;
+    }
+
+};
+class Solution {
 public:
     vector<int> sortArray(vector<int>& nums) {
-        QuickSort(nums, 0, nums.size()-1);
-        return nums;
+        MaxHeap heap(nums);
+        return heap.HeapSort();
     }
 };
-

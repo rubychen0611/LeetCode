@@ -1,36 +1,28 @@
 
 // @Title: 零钱兑换 (Coin Change)
 // @Author: rubychen0611
-// @Date: 2021-02-02 16:15:23
-// @Runtime: 112 ms
-// @Memory: 13.5 MB
+// @Date: 2021-02-18 10:39:12
+// @Runtime: 116 ms
+// @Memory: 13.7 MB
 
 class Solution {
-private:
-    int min(int a, int b)
-    {
-        return a < b ? a : b;
-    }
 public:
-    int coinChange(vector<int>& coins, int amount)
-    {
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount == 0)
+            return 0;
         int n = coins.size();
-        vector<int> dp(amount + 1, -1);
+        vector<int> dp (amount+1, INT_MAX -1);
         dp[0] = 0;
-        for (int i = 1; i <= n; i++)
+        for(int i = 1; i <= n; i++)
         {
-            for(int j = 1; j <= amount; j++)
+            for(int j = 0; j <= amount; j++)
             {
-                if(j >= coins[i-1] && dp[j-coins[i-1]] != -1)
-                {
-                    if (dp[j] == -1)
-                        dp[j] = dp[j-coins[i-1]] + 1;
-                    else
-                        dp[j] = min(dp[j], dp[j-coins[i-1]] + 1);
-                }
+                if(j >= coins[i-1])
+                    dp[j] = min(dp[j], dp[j - coins[i-1]] + 1);
             }
         }
+        if(dp[amount] == INT_MAX - 1)
+            return -1;
         return dp[amount];
     }
 };
-

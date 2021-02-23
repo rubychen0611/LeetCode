@@ -1,9 +1,9 @@
 
 // @Title: 合并两个有序链表 (Merge Two Sorted Lists)
 // @Author: rubychen0611
-// @Date: 2020-12-25 11:43:35
-// @Runtime: 16 ms
-// @Memory: 14.9 MB
+// @Date: 2021-02-16 20:16:28
+// @Runtime: 8 ms
+// @Memory: 14.4 MB
 
 /**
  * Definition for singly-linked list.
@@ -17,54 +17,46 @@
  */
 class Solution {
 private:
-    ListNode* head, *tail;
-    void addNode(ListNode* n)
+    ListNode* head, *tail; 
+    void addNode(ListNode* p)
     {
-        n -> next = nullptr;
-        if (head == NULL && tail == NULL)
-            head = n;
-        else
-            tail -> next = n;
-        tail = n;
-    }
-    void addList(ListNode* p)
-    {
-        if (head == NULL && tail == NULL)
+        if(head == nullptr)
             head = p;
         else
             tail -> next = p;
-    }
+        tail = p;
+        p -> next = nullptr;
+    } 
 public:
-    Solution()
-    {
-        head = NULL;
-        tail = NULL;
-    }
-
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
-    {
-        ListNode* p = l1, *q = l2, *temp;
-        while(p != nullptr && q != nullptr)
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(!l1 && !l2)
+            return nullptr;
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        ListNode* p1 = l1, *p2 = l2;
+        head = tail = nullptr;
+        while(p1 != nullptr && p2 != nullptr)
         {
-            if (p -> val <= q -> val)
+            if(p1 -> val <= p2 -> val)
             {
-                temp = p;
-                p = p -> next;
+                ListNode* tmp = p1;
+                p1 = p1 -> next;
+                addNode(tmp);
+                
             }
-            else if (q -> val <= p -> val)
+            else 
             {
-                temp = q;
-                q = q -> next;
+                ListNode* tmp = p2;
+                p2 = p2 -> next;
+                addNode(tmp);
             }
-            addNode(temp);
         }
-
-        if (p != nullptr)
-            addList(p);
-        if(q != nullptr)
-            addList(q);
+        if(!p1)
+            tail -> next = p2;
+        else if (!p2)
+            tail -> next = p1;
         return head;
-
     }
 };
-

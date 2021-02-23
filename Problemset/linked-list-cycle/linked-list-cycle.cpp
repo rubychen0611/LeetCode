@@ -1,9 +1,9 @@
 
 // @Title: 环形链表 (Linked List Cycle)
 // @Author: rubychen0611
-// @Date: 2020-12-27 15:51:26
-// @Runtime: 8 ms
-// @Memory: 7.9 MB
+// @Date: 2021-02-16 21:52:27
+// @Runtime: 12 ms
+// @Memory: 8 MB
 
 /**
  * Definition for singly-linked list.
@@ -16,18 +16,14 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        if (head == NULL || head -> next == NULL)
-            return false;
         ListNode* slow = head, *fast = head;
-        while(fast -> next !=NULL && fast -> next -> next != NULL)
+        while(fast != nullptr && fast -> next != nullptr)
         {
             slow = slow -> next;
             fast = fast -> next -> next;
-            if (slow == fast)
+            if(fast == slow)
                 return true;
         }
         return false;
     }
-    
 };
-
