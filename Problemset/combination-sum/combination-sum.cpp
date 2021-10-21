@@ -1,48 +1,39 @@
 
 // @Title: 组合总和 (Combination Sum)
 // @Author: rubychen0611
-// @Date: 2021-02-08 15:56:04
-// @Runtime: 12 ms
-// @Memory: 10.7 MB
+// @Date: 2021-10-15 15:58:06
+// @Runtime: 64 ms
+// @Memory: 16.7 MB
 
 class Solution {
 private:
-    vector<vector<int>> ans;
-    int n;
     int target;
-    void dfs(const vector<int>& candidates, int last, vector<int>& path, int sum)
-    {
-//        for(int x : path)
-//            cout << x << " ";
-//        cout << endl;
-        if(sum > target)
-            return;
-        if(sum == target)
-        {
-            ans.push_back(path);
+    vector<vector<int>> ans;
+    void backTrack(vector<int>& candidates, int i, vector<int> &combination, int curSum) {
+        cout << endl;
+        if (i == candidates.size()) {
             return;
         }
-        for(int i = last; i < n; i++)
-        {
-            //cout << candidates[i]<< endl;
-            path.push_back(candidates[i]);
-            dfs(candidates, i, path, sum + candidates[i]);
-            path.pop_back();
+        // not use candidates[i]
+        backTrack(candidates, i + 1, combination, curSum);
+        // use candidates[i]
+        combination.push_back(candidates[i]);
+        curSum += candidates[i];
+        if(curSum == target) {
+            ans.push_back(combination);
         }
+        else if(curSum < target) {
+            backTrack(candidates, i, combination, curSum);
+           // backTrack(candidates, i+1, combination, curSum); 多余
+        }
+        combination.pop_back();
+        curSum -= candidates[i];
     }
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
-        n = candidates.size();
-        this->target = target;
-        vector<int> path(1);
-
-        for(int i = 0; i < n; i++)
-        {
-            path[0] = candidates[i];
-            dfs(candidates, i, path, candidates[i]);
-        }
-        return ans;
+        this -> target = target;
+        vector<int> combination;
+        backTrack(candidates, 0, combination, 0);
+        return ans; 
     }
 };
-

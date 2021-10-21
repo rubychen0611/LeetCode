@@ -1,45 +1,41 @@
 
 // @Title: 全排列 II (Permutations II)
 // @Author: rubychen0611
-// @Date: 2021-02-06 23:42:17
-// @Runtime: 12 ms
-// @Memory: 9.5 MB
+// @Date: 2021-10-15 17:29:08
+// @Runtime: 8 ms
+// @Memory: 11.2 MB
 
 class Solution {
 private:
-    vector<bool> used;
     vector<vector<int>> ans;
-    int n;
-    void dfs(vector<int>& nums, vector<int> permutation, int i)
-    {
-        if(i == n)
-        {
-            ans.push_back(permutation);
+    void backTrack(vector<int>& nums, int cur) { // cur: 当前处理的位置
+        if(cur == nums.size()) {
+            ans.push_back(nums);
+        }
+        unordered_set<int> hashSet;
+        int i = cur;
+        while(i < nums.size()) {
+            if(hashSet.find(nums[i]) == hashSet.end()) {
+                swap(nums, cur, i);
+                backTrack(nums, cur + 1);
+                swap(nums, cur, i);
+                hashSet.insert(nums[i]);
+            }
+            i ++;
+        }
+    }
+    void swap(vector<int>& nums, int i, int j) {
+        if (i == j) {
             return;
         }
-        for(int j = 0; j < n; j++)
-        {
-            if(j > 0 && nums[j-1] == nums[j] && !used[j-1]) //保证在填第 \textit{idx}idx 个数的时候重复数字只会被填入一次即可。
-                continue;
-            if(!used[j])
-            {
-                permutation[i] = nums[j];
-                used[j] = true;
-                dfs(nums, permutation, i + 1);
-                used[j] = false;
-            }
-        }
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
     }
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        n = nums.size();
-        if(n == 0)
-            return ans;
-        used = vector<bool>(n, false);
-        vector<int> permutation(n);
-        sort(nums.begin(), nums.end());
-        dfs(nums, permutation, 0);
+        //sort(nums.begin(), nums.end());
+        backTrack(nums, 0);
         return ans;
     }
 };
-

@@ -1,23 +1,22 @@
 
 // @Title: 最大子序和 (Maximum Subarray)
 // @Author: rubychen0611
-// @Date: 2021-02-09 23:33:57
-// @Runtime: 12 ms
-// @Memory: 12.9 MB
+// @Date: 2021-10-17 15:57:40
+// @Runtime: 112 ms
+// @Memory: 66.1 MB
 
 class Solution {
+private:
+    int max(int a, int b) {
+        return a > b ? a : b;
+    }
 public:
     int maxSubArray(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n);
-        int ans = nums[0];
-        for(int i = 0; i < n; i++)
-        {
-            dp[i] = nums[i];
-            if(i > 0)
-                dp[i] = max(dp[i], dp[i-1] + nums[i]);
-            if (ans < dp[i])
-                ans = dp[i];
+        int lastMax = nums[0];
+        int ans = lastMax;
+        for(int i = 1; i < nums.size(); i++) {
+            lastMax = max(lastMax + nums[i], nums[i]);
+            ans = max(ans, lastMax);
         }
         return ans;
     }

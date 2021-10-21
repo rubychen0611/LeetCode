@@ -1,43 +1,34 @@
 
 // @Title: 全排列 (Permutations)
 // @Author: rubychen0611
-// @Date: 2021-02-06 23:23:15
+// @Date: 2021-10-15 16:57:42
 // @Runtime: 4 ms
-// @Memory: 8 MB
+// @Memory: 7.8 MB
 
 class Solution {
 private:
-    vector<bool> used;
     vector<vector<int>> ans;
-    int n;
-    void dfs(vector<int>& nums, vector<int> permutation, int i)
-    {
-        if(i == n)
-        {
-            ans.push_back(permutation);
-            return;
+    void backTrack(vector<int>& nums, int cur) {
+        if(cur == nums.size()) {
+            ans.push_back(nums);
         }
-        for(int j = 0; j < n; j++)
-        {
-            if(!used[j])
-            {
-                permutation[i] = nums[j];
-                used[j] = true;
-                dfs(nums, permutation, i + 1);
-                used[j] = false;
-            }
+        for(int i = cur; i < nums.size(); i++) {
+            swap(nums, cur, i);
+            backTrack(nums, cur + 1);
+            swap(nums, cur, i);
         }
     }
-
+    void swap(vector<int>& nums, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        n = nums.size();
-        if(n == 0)
-            return ans;
-        used = vector<bool>(n, false);
-        vector<int> permutation(n);
-        dfs(nums, permutation, 0);
+        backTrack(nums, 0);
         return ans;
     }
 };
-

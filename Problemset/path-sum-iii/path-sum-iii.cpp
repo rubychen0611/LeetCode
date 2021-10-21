@@ -1,9 +1,9 @@
 
 // @Title: 路径总和 III (Path Sum III)
 // @Author: rubychen0611
-// @Date: 2021-02-09 17:08:16
-// @Runtime: 44 ms
-// @Memory: 15 MB
+// @Date: 2021-10-19 10:08:06
+// @Runtime: 20 ms
+// @Memory: 18.3 MB
 
 /**
  * Definition for a binary tree node.
@@ -18,22 +18,39 @@
  */
 class Solution {
 private:
-    int pathSumStartWithRoot(TreeNode* root, int sum)
-    {
-        if (!root)
-            return 0;
-        int count = 0;
-        if(sum == root -> val)
-            count ++;
-        count += pathSumStartWithRoot(root -> left, sum - root -> val);
-        count += pathSumStartWithRoot(root -> right, sum - root -> val);
-        return count;
+    int target;
+    int ans;
+    void pathSumInternal(TreeNode* root, vector<int>& prefixSum, unordered_map<int, int> &hashMap) {
+        if(!root) {
+            return;
+        }
+        int newPrefixSum = root ->val;
+        if (prefixSum.size() > 0) {
+            newPrefixSum += prefixSum.back();
+        }
+        if(hashMap.find(newPrefixSum - target) != hashMap.end()) {
+            ans += hashMap[newPrefixSum - target];
+        }
+        prefixSum.push_back(newPrefixSum);
+        if(hashMap.find(newPrefixSum) == hashMap.end()) {
+            hashMap.insert(pair<int,int>(newPrefixSum, 1));
+        } else {
+            hashMap[newPrefixSum] ++;
+        }
+        pathSumInternal(root -> left, prefixSum, hashMap);
+        pathSumInternal(root -> right, prefixSum, hashMap);
+        hashMap[newPrefixSum] --;
+        prefixSum.pop_back();
+
     }
 public:
-    int pathSum(TreeNode* root, int sum) {
-        if(!root)
-            return 0;
-        return pathSumStartWithRoot(root, sum) + pathSum(root -> left, sum) + pathSum(root -> right, sum);
+    int pathSum(TreeNode* root, int targetSum) {
+        target = targetSum;
+        ans = 0;
+        vector<int> prefixSum;
+        unordered_map<int, int> hashMap;
+        hashMap.insert(pair<int,int>(0, 1));
+        pathSumInternal(root, prefixSum, hashMap);
+        return ans;
     }
 };
-

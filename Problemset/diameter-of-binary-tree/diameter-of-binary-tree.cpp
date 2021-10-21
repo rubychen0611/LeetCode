@@ -1,9 +1,9 @@
 
 // @Title: 二叉树的直径 (Diameter of Binary Tree)
 // @Author: rubychen0611
-// @Date: 2021-02-09 13:50:20
-// @Runtime: 12 ms
-// @Memory: 19.7 MB
+// @Date: 2021-10-17 16:09:18
+// @Runtime: 4 ms
+// @Memory: 19.9 MB
 
 /**
  * Definition for a binary tree node.
@@ -11,31 +11,31 @@
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 private:
-    int max(int a, int b)
-    {
+    int ans;
+    int max(int a, int b) {
         return a > b ? a : b;
     }
-    int diameter(TreeNode* root, int & ans)
-    {
-        if(!root)
+    int dfsCalculateDiameter(TreeNode* root) {
+        if (!root) {
             return 0;
-        int lh = diameter(root->left, ans), rh = diameter(root -> right,ans);
-        if(lh + rh > ans)
-            ans = lh + rh;
-        return max(lh, rh) + 1;
+        }
+        int leftPathCount = dfsCalculateDiameter(root -> left);
+        int rightPathCount = dfsCalculateDiameter(root -> right);
+        int diameter = leftPathCount + rightPathCount; 
+        ans = max(ans, diameter);
+        return max(leftPathCount, rightPathCount) + 1;
     }
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        if(!root)
-            return 0;
-        int ans = 0;
-        diameter(root, ans);
+        ans = 0;
+        dfsCalculateDiameter(root);
         return ans;
     }
 };
-

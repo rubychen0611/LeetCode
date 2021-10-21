@@ -1,42 +1,42 @@
 
 // @Title: 前 K 个高频元素 (Top K Frequent Elements)
 // @Author: rubychen0611
-// @Date: 2020-12-20 15:16:42
-// @Runtime: 108 ms
-// @Memory: 14 MB
+// @Date: 2021-10-12 17:22:28
+// @Runtime: 24 ms
+// @Memory: 13.4 MB
 
+struct Info {
+    int num;
+    int count;
+    Info(int _num, int _count) {
+        num = _num;
+        count = _count;
+    }
+    bool operator < (const Info& info) const {
+        return count < info.count;
+    }
+};
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k)
-    {
-        map<int,int> count_map;
-        int max = 0;
-        for (int x: nums)
-        {
-            if(count_map.find(x) == count_map.end())
-                count_map[x] = 1;
-            else
-                count_map[x] ++;
-            if (count_map[x] > max)
-                max = count_map[x];
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int,int> numToCount;
+        for(int num: nums) {
+            if(numToCount.find(num) != numToCount.end()) {
+                numToCount[num] ++;
+            }
+            else {
+                numToCount.insert(pair<int,int>(num, 1));
+            }
         }
-        vector<vector<int>> indexes(max+1, vector<int>());
-        for(map<int,int>::iterator it=count_map.begin(); it != count_map.end(); it ++)
-        {
-            indexes[it->second].push_back(it->first);
+        priority_queue<Info, vector<Info>, less<Info>> maxHeap;
+        for(map<int,int>::iterator it = numToCount.begin(); it != numToCount.end(); it++) {
+            maxHeap.push(Info(it->first, it->second));
         }
-        int j = max;
-        vector<int> ans(k);
-        for (int i = 0; i < k;)
-        {
-            while(indexes[j].size() == 0)
-                j--;
-            for (int p = 0; p < indexes[j].size(); p++)
-                ans[i++] = indexes[j][p];
-            j--;
+        vector<int> ans;
+        for(int i = 0; i < k; i++) {
+            ans.push_back(maxHeap.top().num);
+            maxHeap.pop();
         }
         return ans;
     }
-
 };
-
